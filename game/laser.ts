@@ -11,8 +11,8 @@ class Laser extends ex.Actor {
         this.addDrawing('playersShot', this.laser);
 
         let netVel = 550
-        let xVel = Math.cos(playerNg) * netVel;
-        let yVel = Math.sin(playerNg) * netVel;
+        let yVel = -Math.cos(playerNg) * netVel;
+        let xVel = Math.sin(playerNg) * netVel;
         this.vel = new ex.Vector(xVel, yVel);
         this.rotation = playerNg;
 
