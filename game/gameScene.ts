@@ -1,5 +1,8 @@
 class GameScene extends ex.Scene {
 
+    private level: number = 1;
+    private meteors: Meteor[];
+    private meteorCount: number;
     private player: Player;
     public topBorder: Border;
     public rightBorder: Border;
@@ -8,6 +11,10 @@ class GameScene extends ex.Scene {
 
     constructor() {
         super();
+        this.meteors = [];
+        this.meteorCount = this.level * 3;
+        let initialMeteor = new Meteor(-300, 0);
+        this.meteors.push(initialMeteor);
     }
 
     public onInitialize(engine: ex.Engine) {
@@ -23,6 +30,14 @@ class GameScene extends ex.Scene {
         
         this.player = new Player(0, 0);
 
+        while (this.meteors.length < this.meteorCount) {
+            let x = Math.floor(Math.random() * ((right-15)-(left+15))); 
+            let y = Math.floor(Math.random() * ((bottomLeftY-15)-(topLeftY+15))); 
+            let currentMeteor = new Meteor(x, y);
+            this.meteors.push(currentMeteor);
+        }
+
+
     }
 
     // each time the scene is entered (Engine.goToScene)
@@ -32,6 +47,10 @@ class GameScene extends ex.Scene {
         this.add(this.rightBorder);
         this.add(this.bottomBorder);
         this.add(this.player);
+
+        for (let meteor of this.meteors) {
+            this.add(meteor);
+        }
 
         this.player.on('collision', (ev: ex.CollisionEvent) => {
             if(ev.other == this.leftBorder) {
