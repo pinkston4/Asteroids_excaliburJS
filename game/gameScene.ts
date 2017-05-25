@@ -6,6 +6,10 @@ class GameScene extends ex.Scene {
     public bottomBorder: Border;
     public leftBorder: Border;
 
+    constructor() {
+        super();
+    }
+
     public onInitialize(engine: ex.Engine) {
         let topLeftY = 0 - game.getDrawHeight()/2;
         let bottomLeftY = game.getDrawHeight()/2;
@@ -18,8 +22,6 @@ class GameScene extends ex.Scene {
         this.rightBorder  = new Border(right - 10, 0, 2, game.getDrawHeight()-20);
         
         this.player = new Player(0, 0);
-
-     
 
     }
 
@@ -39,21 +41,14 @@ class GameScene extends ex.Scene {
                 this.player.pos.y = this.player.oldPos.y;
             }
         });
-        // this.player.on('collision', (cv: ex.CollisionEvent) => {
-        //     console.log(cv);
-        //     if(cv.other == this.topBorder) {
-        //        console.log('collided with top');
-        //     }
-        //     if(cv.other == this.rightBorder) {
-                
-        //     }
-        //     if(cv.other == this.bottomBorder) {
-                
-        //     }
-        //     if(cv.other == this.leftBorder) {
-                
-        //     }
-        // });
+
+        game.input.keyboard.on('press', (evt: ex.Input.KeyEvent) => {
+            if(evt.key == ex.Input.Keys.Space) {
+                let blaster = new Laser(this.player.pos.x, this.player.pos.y, this.player.rotation);
+                this.add(blaster);
+            }
+        });
+  
     }
 
     // each time the scene is exited (Engine.goToScene)

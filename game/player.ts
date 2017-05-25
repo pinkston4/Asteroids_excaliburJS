@@ -34,33 +34,19 @@ class Player extends ex.Actor {
 
         super.update(engine, delta);
 
-        if(keyThing.wasPressed(leftKey)) {
-            this.vel.x = -350;
-        } else if(keyThing.wasPressed(rightKey)) {
-            this.vel.x = 350;
-        } else if(keyThing.wasPressed(upKey)) {
-            this.vel.y = -350;
-        } else if(keyThing.wasPressed(downKey)) {
-            this.vel.y = 350;
+        if(keyThing.wasPressed(leftKey) || keyThing.isHeld(leftKey)) {
+            this.vel.x = -450;
+        } else if(keyThing.wasPressed(rightKey) || keyThing.isHeld(rightKey)) {
+            this.vel.x = 450;
+        } else if(keyThing.wasPressed(upKey) || keyThing.isHeld(upKey)) {
+            this.vel.y = -450;
+        } else if(keyThing.wasPressed(downKey) || keyThing.isHeld(downKey)) {
+            this.vel.y = 450;
         } else if(keyThing.wasReleased(leftKey)|| keyThing.wasReleased(rightKey)) {
             this.vel.x = 0;
         } else if(keyThing.wasReleased(upKey) || keyThing.wasReleased(downKey)) {
             this.vel.y = 0;
         }
-
-        // if(keyThing.isHeld(leftKey) && keyThing.isHeld(upKey)) {
-        //     this.pos.x -= 2.5;
-        //     this.pos.y -= 2.5;
-        // } else if(keyThing.isHeld(leftKey) && keyThing.isHeld(downKey)) {
-        //     this.pos.x -= 2.5;
-        //     this.pos.y += 2.5;
-        // } else if(keyThing.isHeld(rightKey) && keyThing.isHeld(upKey)) {
-        //     this.pos.x += 2.5;
-        //     this.pos.y -= 2.5;;
-        // } else if(keyThing.isHeld(rightKey) && keyThing.isHeld(downKey)) {
-        //     this.pos.x += 2.5;
-        //     this.pos.y += 2.5; 
-        // } 
 
         if(keyThing.wasPressed(leftArrow)) {
             this.rotation = 4.712;
@@ -80,7 +66,7 @@ class Player extends ex.Actor {
             this.rotation = 2.356;
         } 
 
-
-
+      
+     
     }
 }

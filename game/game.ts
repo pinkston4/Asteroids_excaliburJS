@@ -5,6 +5,7 @@
 /// <reference path="gameScene.ts" />
 /// <reference path="player.ts" />
 /// <reference path="border.ts" />
+/// <reference path="laser.ts" />
 
 var game = new ex.Engine({
     width: null,
