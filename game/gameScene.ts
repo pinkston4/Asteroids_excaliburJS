@@ -33,12 +33,22 @@ class GameScene extends ex.Scene {
         this.add(this.bottomBorder);
         this.add(this.player);
 
-         this.player.on('collision', (ev: ex.CollisionEvent) => {
-            if(ev.other == this.leftBorder || ev.other == this.rightBorder || ev.other == this.topBorder || ev.other == this.bottomBorder){
-                this.player.vel.x = 0;
-                this.player.vel.y = 0;
-                this.player.pos.x = this.player.oldPos.x;
-                this.player.pos.y = this.player.oldPos.y;
+        this.player.on('collision', (ev: ex.CollisionEvent) => {
+            if(ev.other == this.leftBorder) {
+                this.player.vel = new ex.Vector(0, 0);
+                this.player.pos.x = this.leftBorder.x + 5;
+            }
+            if(ev.other == this.topBorder) {
+                this.player.vel = new ex.Vector(0, 0);
+                this.player.pos.y = this.topBorder.y + 5;
+            }
+            if(ev.other == this.rightBorder) {
+                this.player.vel = new ex.Vector(0, 0);
+                this.player.pos.x = this.rightBorder.x - 5;
+            }
+            if(ev.other == this.bottomBorder) {
+                this.player.vel = new ex.Vector(0, 0);
+                this.player.pos.y = this.bottomBorder.y - 5;
             }
         });
 
