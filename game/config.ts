@@ -1,6 +1,6 @@
 var config = {
 
-    gameScreen: ex.DisplayMode.FullScreen, 
+    gameScreen: ex.DisplayMode.Container, 
     color: ex.Color.Transparent,
     
 

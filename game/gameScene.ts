@@ -12,9 +12,7 @@ class GameScene extends ex.Scene {
     constructor() {
         super();
         this.meteors = [];
-        this.meteorCount = this.level * 3;
-        let initialMeteor = new Meteor(-300, 0);
-        this.meteors.push(initialMeteor);
+        this.meteorCount = this.level * 5;
     }
 
     public onInitialize(engine: ex.Engine) {
@@ -30,9 +28,12 @@ class GameScene extends ex.Scene {
         
         this.player = new Player(0, 0);
 
-        while (this.meteors.length < this.meteorCount) {
-            let x = Math.floor(Math.random() * ((right-15)-(left+15))); 
-            let y = Math.floor(Math.random() * ((bottomLeftY-15)-(topLeftY+15))); 
+        let initialMeteor = new Meteor(-300, 0);
+        this.meteors.push(initialMeteor);
+
+        while (this.meteors.length <= this.meteorCount) {
+            let x = Math.floor(Math.random() * (left + 300)-(left + 100));
+            let y = Math.floor(Math.random() * (topLeftY + 300)-(topLeftY + 100));
             let currentMeteor = new Meteor(x, y);
             this.meteors.push(currentMeteor);
         }
@@ -50,6 +51,17 @@ class GameScene extends ex.Scene {
 
         for (let meteor of this.meteors) {
             this.add(meteor);
+            meteor.on('collision', (ev: ex.CollisionEvent) => {
+                let e = ev.other;
+                if(e == this.leftBorder ||  e == this.rightBorder) {
+                    meteor.vel.x *= -1;
+                } else if (e == this.topBorder || e == this.bottomBorder) {
+                    meteor.vel.y *= -1;
+                }
+            });
+            meteor.on('collision', (ev: ex.CollisionEvent) => {
+              
+            });
         }
 
         this.player.on('collision', (ev: ex.CollisionEvent) => {
