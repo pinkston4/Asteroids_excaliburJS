@@ -3,6 +3,8 @@ class GameScene extends ex.Scene {
     private level: number = 1;
     private meteors: Meteor[];
     private meteorCount: number;
+    private meteorInitVelX: number = 100;
+    private meteorInitVelY: number = 100;
     private player: Player;
     public topBorder: Border;
     public rightBorder: Border;
@@ -28,14 +30,16 @@ class GameScene extends ex.Scene {
         
         this.player = new Player(0, 0);
 
-        let initialMeteor = new Meteor(-300, 0);
+        let initialMeteor = new Meteor(-300, 0, this.meteorInitVelX, this.meteorInitVelY);
         this.meteors.push(initialMeteor);
 
-        while (this.meteors.length <= this.meteorCount) {
+        while (this.meteors.length < this.meteorCount) {
             let x = Math.floor(Math.random() * (left + 300)-(left + 100));
             let y = Math.floor(Math.random() * (topLeftY + 300)-(topLeftY + 100));
-            let currentMeteor = new Meteor(x, y);
+            let currentMeteor = new Meteor(x, y, this.meteorInitVelX, this.meteorInitVelY);
             this.meteors.push(currentMeteor);
+            this.meteorInitVelX += 25;
+            this.meteorInitVelY -= 25;
         }
 
 
@@ -58,9 +62,6 @@ class GameScene extends ex.Scene {
                 } else if (e == this.topBorder || e == this.bottomBorder) {
                     meteor.vel.y *= -1;
                 }
-            });
-            meteor.on('collision', (ev: ex.CollisionEvent) => {
-              
             });
         }
 
@@ -87,6 +88,11 @@ class GameScene extends ex.Scene {
             if(evt.key == ex.Input.Keys.Space) {
                 let blaster = new Laser(this.player.pos.x, this.player.pos.y, this.player.rotation);
                 this.add(blaster);
+                blaster.on('collision', (ev: ex.CollisionEvent) => {
+                    if(ev.other != this.leftBorder && ev.other != this.topBorder && ev.other != this.rightBorder && ev.other != this.bottomBorder && ev.other != this.player) {
+                        ev.other.kill();
+                    }
+                });
             }
         });
   
@@ -100,5 +106,9 @@ class GameScene extends ex.Scene {
         this.remove(this.bottomBorder);
         this.remove(this.leftBorder);
         this.remove(this.rightBorder);
+    }
+
+    public largeDestruction() {
+
     }
 }

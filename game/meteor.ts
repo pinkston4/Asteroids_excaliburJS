@@ -1,13 +1,15 @@
 class Meteor extends ex.Actor {
 
     private meteor: ex.Sprite;
-    private velocity: number = 100;
+    private mMeteor: ex.Sprite;
+    public childM1;
+    public childM2;
 
-    constructor(x:number, y:number) {
+    constructor(x:number, y:number, velX: number, velY: number) {
         super(x, y, 120, 98);
         this.collisionType = ex.CollisionType.Elastic;
         this.meteor = new ex.Sprite(resources.largeMeteor, 0, 0, 120, 98);
-        this.vel = new ex.Vector(this.velocity, this.velocity);
+        this.vel = new ex.Vector(velX, velY);
         this.addDrawing('largeMeteor', this.meteor);
     }
 
@@ -17,6 +19,9 @@ class Meteor extends ex.Actor {
 
     public update(engine, delta) {
         super.update(engine, delta);
+        // if(this.isKilled()){
+          
+        // }
     }
 
 }

@@ -24,6 +24,8 @@ class Player extends ex.Actor {
         let upKey = ex.Input.Keys.W;
         let downKey = ex.Input.Keys.S;
 
+        let movementKeys = [leftKey, rightKey, upKey, downKey];
+
         //aim
         let leftArrow = ex.Input.Keys.Left;
         let rightArrow = ex.Input.Keys.Right;
@@ -46,7 +48,7 @@ class Player extends ex.Actor {
             this.vel.x = 0;
         } else if(keyThing.wasReleased(upKey) || keyThing.wasReleased(downKey)) {
             this.vel.y = 0;
-        }
+        } 
 
         if(keyThing.wasPressed(leftArrow)) {
             this.rotation = 4.712;
@@ -65,8 +67,6 @@ class Player extends ex.Actor {
         } else if(keyThing.isHeld(rightArrow) && keyThing.isHeld(downArrow)) {
             this.rotation = 2.356;
         } 
-
-      
      
     }
 }
