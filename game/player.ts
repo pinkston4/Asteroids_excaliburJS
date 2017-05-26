@@ -37,13 +37,13 @@ class Player extends ex.Actor {
         super.update(engine, delta);
 
         if(keyThing.wasPressed(leftKey) || keyThing.isHeld(leftKey)) {
-            this.vel.x = -400;
+            this.vel.x = -350;
         } else if(keyThing.wasPressed(rightKey) || keyThing.isHeld(rightKey)) {
-            this.vel.x = 400;
+            this.vel.x = 350;
         } else if(keyThing.wasPressed(upKey) || keyThing.isHeld(upKey)) {
-            this.vel.y = -400;
+            this.vel.y = -350;
         } else if(keyThing.wasPressed(downKey) || keyThing.isHeld(downKey)) {
-            this.vel.y = 400;
+            this.vel.y = 350;
         } else if(keyThing.wasReleased(leftKey)|| keyThing.wasReleased(rightKey)) {
             this.vel.x = 0;
         } else if(keyThing.wasReleased(upKey) || keyThing.wasReleased(downKey)) {

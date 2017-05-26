@@ -1,8 +1,9 @@
 class GameScene extends ex.Scene {
 
     private level: number = 1;
-    private meteors: Meteor[];
-    private meteorCount: number;
+    private meteors;
+    private largeMeteorCount: number;
+    private mediumMeteorCount: number;
     private meteorInitVelX: number = 100;
     private meteorInitVelY: number = 100;
     private player: Player;
@@ -14,7 +15,8 @@ class GameScene extends ex.Scene {
     constructor() {
         super();
         this.meteors = [];
-        this.meteorCount = this.level * 5;
+        this.largeMeteorCount = this.level * 3;
+        this.mediumMeteorCount = this.level * 5;
     }
 
     public onInitialize(engine: ex.Engine) {
@@ -30,16 +32,26 @@ class GameScene extends ex.Scene {
         
         this.player = new Player(0, 0);
 
-        let initialMeteor = new Meteor(-300, 0, this.meteorInitVelX, this.meteorInitVelY);
+        let initialMeteor = new LargeMeteor(-300, 0, this.meteorInitVelX, this.meteorInitVelY);
         this.meteors.push(initialMeteor);
 
-        while (this.meteors.length < this.meteorCount) {
-            let x = Math.floor(Math.random() * (left + 300)-(left + 100));
-            let y = Math.floor(Math.random() * (topLeftY + 300)-(topLeftY + 100));
-            let currentMeteor = new Meteor(x, y, this.meteorInitVelX, this.meteorInitVelY);
+        while (this.meteors.length < this.largeMeteorCount) {
+            let x = Math.floor(Math.random() * (left + 150));
+            let y = Math.floor(Math.random() * (topLeftY + 150));
+            let currentMeteor = new LargeMeteor(x, y, this.meteorInitVelX, this.meteorInitVelY);
             this.meteors.push(currentMeteor);
             this.meteorInitVelX += 25;
             this.meteorInitVelY -= 25;
+        }
+
+        while (this.meteors.length < this.largeMeteorCount + this.mediumMeteorCount) {
+            let x = -300;
+            let y = -100;
+            let currentMeteor = new MediumMeteor(x, y, this.meteorInitVelX, this.meteorInitVelY);
+            this.meteors.push(currentMeteor);
+            y += 50;
+            this.meteorInitVelX -= 25;
+            this.meteorInitVelY += 25;
         }
 
 
@@ -100,15 +112,10 @@ class GameScene extends ex.Scene {
 
     // each time the scene is exited (Engine.goToScene)
     public onDeactivate() { 
-        this.removeGroup('player/boundaries');
-        this.remove(this.player);
-        this.remove(this.topBorder);
-        this.remove(this.bottomBorder);
-        this.remove(this.leftBorder);
-        this.remove(this.rightBorder);
+        for (let child of this.children) {
+            this.remove(child)
+        }
     }
 
-    public largeDestruction() {
-
-    }
+ 
 }
