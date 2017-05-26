@@ -1,11 +1,9 @@
 class GameScene extends ex.Scene {
 
-    private level: number = 1;
+    private level: number;
     private meteors;
     private largeMeteorCount: number;
     private mediumMeteorCount: number;
-    private meteorInitVelX: number = 100;
-    private meteorInitVelY: number = 100;
     private player: Player;
     public topBorder: Border;
     public rightBorder: Border;
@@ -15,8 +13,7 @@ class GameScene extends ex.Scene {
     constructor() {
         super();
         this.meteors = [];
-        this.largeMeteorCount = this.level * 3;
-        this.mediumMeteorCount = this.level * 5;
+        this.level = 1;
     }
 
     public onInitialize(engine: ex.Engine) {
@@ -32,29 +29,7 @@ class GameScene extends ex.Scene {
         
         this.player = new Player(0, 0);
 
-        let initialMeteor = new LargeMeteor(-300, 0, this.meteorInitVelX, this.meteorInitVelY);
-        this.meteors.push(initialMeteor);
-
-        while (this.meteors.length < this.largeMeteorCount) {
-            let x = Math.floor(Math.random() * (left + 150));
-            let y = Math.floor(Math.random() * (topLeftY + 150));
-            let currentMeteor = new LargeMeteor(x, y, this.meteorInitVelX, this.meteorInitVelY);
-            this.meteors.push(currentMeteor);
-            this.meteorInitVelX += 25;
-            this.meteorInitVelY -= 25;
-        }
-
-        while (this.meteors.length < this.largeMeteorCount + this.mediumMeteorCount) {
-            let x = -300;
-            let y = -100;
-            let currentMeteor = new MediumMeteor(x, y, this.meteorInitVelX, this.meteorInitVelY);
-            this.meteors.push(currentMeteor);
-            y += 50;
-            this.meteorInitVelX -= 25;
-            this.meteorInitVelY += 25;
-        }
-
-
+        this.createLargeMeteors();
     }
 
     // each time the scene is entered (Engine.goToScene)
@@ -64,18 +39,6 @@ class GameScene extends ex.Scene {
         this.add(this.rightBorder);
         this.add(this.bottomBorder);
         this.add(this.player);
-
-        for (let meteor of this.meteors) {
-            this.add(meteor);
-            meteor.on('collision', (ev: ex.CollisionEvent) => {
-                let e = ev.other;
-                if(e == this.leftBorder ||  e == this.rightBorder) {
-                    meteor.vel.x *= -1;
-                } else if (e == this.topBorder || e == this.bottomBorder) {
-                    meteor.vel.y *= -1;
-                }
-            });
-        }
 
         this.player.on('collision', (ev: ex.CollisionEvent) => {
             if(ev.other == this.leftBorder) {
@@ -101,13 +64,79 @@ class GameScene extends ex.Scene {
                 let blaster = new Laser(this.player.pos.x, this.player.pos.y, this.player.rotation);
                 this.add(blaster);
                 blaster.on('collision', (ev: ex.CollisionEvent) => {
-                    if(ev.other != this.leftBorder && ev.other != this.topBorder && ev.other != this.rightBorder && ev.other != this.bottomBorder && ev.other != this.player) {
-                        ev.other.kill();
+                    if(this.meteors.includes(ev.other)){
+                            let index = this.meteors.indexOf(ev.other);
+                            this.meteors.splice(index, 1);
+                            ev.other.kill();
+                            blaster.kill();
+                            this.remove(ev.other);
+                            this.remove(blaster);
                     }
                 });
             }
         });
   
+    }
+
+    private createLargeMeteors(): void {
+        while (this.meteors.length < this.level * 2) {
+            let x: number = -300;
+            let y: number = -0;
+            let velX: number = 100;
+            let velY: number = 100;
+            let currentMeteor = new LargeMeteor(x, y, velX, velY);
+            this.meteors.push(currentMeteor);
+            x += 120;
+            y += 120
+            velX += 25;
+            velY -= 25;
+        }
+        this.createMediumMeteors();
+    }
+
+    private createMediumMeteors(): void {
+      while (this.meteors.length < this.level * 5) {
+            let x = -300;
+            let y = -100;
+            let velX: number = 100;
+            let velY: number = 100;
+            let currentMeteor = new MediumMeteor(x, y, velX, velY);
+            this.meteors.push(currentMeteor);
+            x += 100
+            y += 25;
+            velX -= 75;
+            velY += 75;
+        }
+        this.addMeteor();
+    }
+
+    private addMeteor(): void {
+        for (let meteor of this.meteors) {
+            this.add(meteor);
+            meteor.on('collision', (ev: ex.CollisionEvent) => {
+                let e = ev.other;
+                if(e == this.leftBorder ||  e == this.rightBorder) {
+                    meteor.vel.x *= -1;
+                } else if (e == this.topBorder || e == this.bottomBorder) {
+                    meteor.vel.y *= -1;
+                }
+            });
+            meteor.on('exitviewport', (ev: ex.ExitViewPortEvent) => {
+                let index = this.meteors.indexOf(meteor);
+                this.meteors.splice(index, 1);
+                meteor.kill();
+                this.remove(meteor);
+
+            });
+        }
+    }
+
+    public update(engine, delta) {
+        super.update(engine, delta);
+        if (this.meteors.length == 0) {
+            this.level += 1;
+            this.createLargeMeteors();
+        }
     }
 
     // each time the scene is exited (Engine.goToScene)
