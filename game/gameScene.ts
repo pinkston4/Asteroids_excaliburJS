@@ -1,14 +1,22 @@
 class GameScene extends ex.Scene {
 
     private level: number;
+
     private meteors;
     private largeMeteorCount: number;
     private mediumMeteorCount: number;
+
     private player: Player;
+
     public topBorder: Border;
     public rightBorder: Border;
     public bottomBorder: Border;
     public leftBorder: Border;
+
+    public top: number;
+    public bottom: number;
+    public left: number;
+    public right: number;
 
     constructor() {
         super();
@@ -17,15 +25,15 @@ class GameScene extends ex.Scene {
     }
 
     public onInitialize(engine: ex.Engine) {
-        let topLeftY = 0 - game.getDrawHeight()/2;
-        let bottomLeftY = game.getDrawHeight()/2;
-        let left = 0 - game.getDrawWidth()/2;
-        let right = game.getDrawWidth()/2;
+        this.top = 0 - game.getDrawHeight()/2;
+        this.bottom = game.getDrawHeight()/2;
+        this.left = 0 - game.getDrawWidth()/2;
+        this.right = game.getDrawWidth()/2;
         
-        this.topBorder = new Border(0, topLeftY + 10, game.getDrawWidth()-20, 2);
-        this.bottomBorder = new Border(0, bottomLeftY - 10, game.getDrawWidth()-20, 2);
-        this.leftBorder = new Border(left + 10, 0, 2, game.getDrawHeight()-20);
-        this.rightBorder  = new Border(right - 10, 0, 2, game.getDrawHeight()-20);
+        this.topBorder = new Border(0, this.top + 10, game.getDrawWidth()-20, 2);
+        this.bottomBorder = new Border(0, this.bottom - 10, game.getDrawWidth()-20, 2);
+        this.leftBorder = new Border(this.left + 10, 0, 2, game.getDrawHeight()-20);
+        this.rightBorder  = new Border(this.right - 10, 0, 2, game.getDrawHeight()-20);
         
         this.player = new Player(0, 0);
 
@@ -79,34 +87,27 @@ class GameScene extends ex.Scene {
     }
 
     private createLargeMeteors(): void {
-        while (this.meteors.length < this.level * 2) {
-            let x: number = -300;
-            let y: number = -0;
-            let velX: number = 100;
-            let velY: number = 100;
+        while (this.meteors.length < this.level + 1) {
+            let x: number = Math.floor(Math.random() * this.right - 50);
+            let y: number = Math.floor(Math.random() * this.bottom - 50);
+            let velX: number = Math.floor(Math.random() * 100 + 10);
+            let velY: number = Math.floor(Math.random() * 100 + 10);
             let currentMeteor = new LargeMeteor(x, y, velX, velY);
             this.meteors.push(currentMeteor);
-            x += 120;
-            y += 120
-            velX += 25;
-            velY -= 25;
         }
         this.createMediumMeteors();
     }
 
     private createMediumMeteors(): void {
-      while (this.meteors.length < this.level * 5) {
-            let x = -300;
-            let y = -100;
-            let velX: number = 100;
-            let velY: number = 100;
+        while (this.meteors.length < this.level * 2) {
+            let x: number = Math.floor(Math.random() * this.left + 50);
+            let y: number = Math.floor(Math.random() * this.top + 50);
+            let velX: number = Math.floor(Math.random() * 100 + 10);
+            let velY: number = Math.floor(Math.random() * 100 + 10);
             let currentMeteor = new MediumMeteor(x, y, velX, velY);
             this.meteors.push(currentMeteor);
-            x += 100
-            y += 25;
-            velX -= 75;
-            velY += 75;
-        }
+          
+            }
         this.addMeteor();
     }
 
