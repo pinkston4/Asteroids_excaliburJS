@@ -8,6 +8,7 @@
 /// <reference path="laser.ts" />
 /// <reference path="largeMeteor.ts" />
 /// <reference path="mediumMeteor.ts" />
+/// <reference path="nextLevel.ts" />
 
 var game = new ex.Engine({
     width: null,
@@ -30,6 +31,8 @@ game.start(loader).then(() => {
     // start your game!
     var menu = new MainMenu(); 
     var gameScene = new GameScene();
+    let levelComplete = new NextLevel();
+    game.add('next', levelComplete);
     game.add('gameScene', gameScene);
     game.add('menu', menu);    
     game.goToScene('gameScene');

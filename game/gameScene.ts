@@ -27,6 +27,7 @@ class GameScene extends ex.Scene {
     }
 
     public onInitialize(engine: ex.Engine) {
+       
         this.top = 0 - game.getDrawHeight()/2;
         this.bottom = game.getDrawHeight()/2;
         this.left = 0 - game.getDrawWidth()/2;
@@ -38,17 +39,18 @@ class GameScene extends ex.Scene {
         this.rightBorder  = new Border(this.right - 10, 0, 2, game.getDrawHeight()-20);
         
         this.player = new Player(0, 0);
-
-        this.createLargeMeteors();
-    }
-
-    // each time the scene is entered (Engine.goToScene)
-    public onActivate() { 
         this.add(this.leftBorder);
         this.add(this.topBorder);
         this.add(this.rightBorder);
         this.add(this.bottomBorder);
         this.add(this.player);
+    }
+
+    // each time the scene is entered (Engine.goToScene)
+    public onActivate() { 
+   
+
+        this.createLargeMeteors();
 
         this.player.on('collision', (ev: ex.CollisionEvent) => {
             if(ev.other == this.leftBorder) {
@@ -79,8 +81,6 @@ class GameScene extends ex.Scene {
                         this.mediumMeteors.splice(index, 1);
                         ev.other.kill();
                         blaster.kill();
-                        this.remove(ev.other);
-                        this.remove(blaster);
                     }
                     if(this.largeMeteors.includes(ev.other)) {
                         let index = this.largeMeteors.indexOf(ev.other);
@@ -89,8 +89,6 @@ class GameScene extends ex.Scene {
                         let pm2 = new MediumMeteor(ev.other.oldPos.x, ev.other.oldPos.y, ev.other.vel.x * -1, ev.other.vel.y * -1);
                         ev.other.kill();
                         blaster.kill();
-                        this.remove(ev.other);
-                        this.remove(blaster);
                         this.add(pm1);
                         this.add(pm2);
                         this.mediumMeteors.push(pm1, pm2);
@@ -149,16 +147,18 @@ class GameScene extends ex.Scene {
         super.update(engine, delta);
         if (this.largeMeteors.length == 0 && this.mediumMeteors == 0) {
             this.level += 1;
-            this.createLargeMeteors();
+            game.goToScene('next');
         }
     }
 
     // each time the scene is exited (Engine.goToScene)
-    public onDeactivate() { 
-        for (let child of this.children) {
-            this.remove(child)
-        }
-    }
+    // public onDeactivate() { 
+    //     console.log('ondeactivate');
+    //     for (let child of this.children) {
+    //         this.remove(child)
+    //         console.log('removing child', child);
+    //     }
+    // }
 
  
 }
