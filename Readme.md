@@ -18,3 +18,6 @@ To compile:
 1. Move with A,W,S,D
 1. Aim with arrow keys
 1. Shoot with Spacebar
+1. Next level with Enter
+
+![alt tag](https://github.com/pinkston4/Asteroids_excaliburJS/blob/master/resources/asteroids.png)
