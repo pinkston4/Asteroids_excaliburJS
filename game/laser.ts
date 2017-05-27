@@ -1,4 +1,3 @@
-
 class Laser extends ex.Actor {
 
     private laser: ex.Sprite;

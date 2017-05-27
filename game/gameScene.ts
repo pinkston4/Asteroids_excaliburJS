@@ -100,8 +100,8 @@ class GameScene extends ex.Scene {
 
     private createLargeMeteors(): void {
         while (this.largeMeteors.length < this.level + 1) {
-            let x: number = Math.floor(Math.random() * this.right - 50);
-            let y: number = Math.floor(Math.random() * this.bottom - 50);
+            let x: number = Math.floor(Math.random() * this.right - 300);
+            let y: number = Math.floor(Math.random() * this.bottom - 300);
             let velX: number = Math.floor(Math.random() * 100 + 10);
             let velY: number = Math.floor(Math.random() * 100 + 10);
             let currentMeteor = new LargeMeteor(x, y, velX, velY);
@@ -112,10 +112,10 @@ class GameScene extends ex.Scene {
 
     private createMediumMeteors(): void {
         while (this.mediumMeteors.length < this.level * 2) {
-            let x: number = Math.floor(Math.random() * this.left + 50);
-            let y: number = Math.floor(Math.random() * this.top + 50);
-            let velX: number = Math.floor(Math.random() * 100 + 10);
-            let velY: number = Math.floor(Math.random() * 100 + 10);
+            let x: number = Math.floor(Math.random() * this.left + 300);
+            let y: number = Math.floor(Math.random() * this.top + 300);
+            let velX: number = Math.floor(Math.random() * 150 + 10);
+            let velY: number = Math.floor(Math.random() * 150 + 10);
             let currentMeteor = new MediumMeteor(x, y, velX, velY);
             this.mediumMeteors.push(currentMeteor);
           
