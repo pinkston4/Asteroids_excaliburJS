@@ -80,7 +80,6 @@ class GameScene extends ex.Scene {
                         let index = this.mediumMeteors.indexOf(ev.other);
                         this.mediumMeteors.splice(index, 1);
                         ev.other.kill();
-                        blaster.kill();
                     }
                     if(this.largeMeteors.includes(ev.other)) {
                         let index = this.largeMeteors.indexOf(ev.other);
@@ -88,7 +87,6 @@ class GameScene extends ex.Scene {
                         let pm1 = new MediumMeteor(ev.other.pos.x, ev.other.pos.y, ev.other.vel.x, ev.other.vel.y);
                         let pm2 = new MediumMeteor(ev.other.oldPos.x, ev.other.oldPos.y, ev.other.vel.x * -1, ev.other.vel.y * -1);
                         ev.other.kill();
-                        blaster.kill();
                         this.add(pm1);
                         this.add(pm2);
                         this.mediumMeteors.push(pm1, pm2);

@@ -19,6 +19,9 @@ class Laser extends ex.Actor {
         this.on('exitviewport', (evt: ex.ExitViewPortEvent) => {
             this.kill();
         });
+        this.on('collision', () => {
+            this.kill();
+        });
     }
 
 
