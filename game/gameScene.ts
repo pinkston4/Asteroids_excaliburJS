@@ -128,14 +128,6 @@ class GameScene extends ex.Scene {
         for (let mArray of meteors) {
             for (let meteor of mArray) {
                     this.add(meteor);
-                    meteor.on('collision', (ev: ex.CollisionEvent) => {
-                        let e = ev.other;
-                        if(e == this.leftBorder ||  e == this.rightBorder) {
-                            meteor.vel.x *= -1;
-                        } else if (e == this.topBorder || e == this.bottomBorder) {
-                            meteor.vel.y *= -1;
-                        }
-                    });
                 }            
         }
    
@@ -148,6 +140,8 @@ class GameScene extends ex.Scene {
             game.goToScene('next');
         }
     }
+
+ 
 
     // each time the scene is exited (Engine.goToScene)
     // public onDeactivate() { 
