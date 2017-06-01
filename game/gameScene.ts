@@ -74,6 +74,7 @@ class GameScene extends ex.Scene {
             if(this.mediumMeteors.includes(ev.other)){
                 this.player.health -= 5;
                 console.log(this.player.health);
+                //note try reversing the velocity of the meteor on impact to prevent a million collision and instant health drain
             }
             if(this.largeMeteors.includes(ev.other)){
                 this.player.health -= 10;
