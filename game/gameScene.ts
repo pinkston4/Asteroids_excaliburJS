@@ -53,6 +53,7 @@ class GameScene extends ex.Scene {
 
         this.createLargeMeteors();
 
+
         this.player.on('collision', (ev: ex.CollisionEvent) => {
             if(ev.other == this.leftBorder) {
                 this.player.vel = new ex.Vector(0, 0);
@@ -70,7 +71,16 @@ class GameScene extends ex.Scene {
                 this.player.vel = new ex.Vector(0, 0);
                 this.player.pos.y = this.bottomBorder.y - 5;
             }
+            if(this.mediumMeteors.includes(ev.other)){
+                this.player.health -= 5;
+                console.log(this.player.health);
+            }
+            if(this.largeMeteors.includes(ev.other)){
+                this.player.health -= 10;
+                console.log(this.player.health);
+            }
         });
+    
 
         game.input.keyboard.on('press', (evt: ex.Input.KeyEvent) => {
             if(evt.key == ex.Input.Keys.Space) {
@@ -146,7 +156,6 @@ class GameScene extends ex.Scene {
 
     // each time the scene is exited (Engine.goToScene)
     public onDeactivate() { 
-        super.onDeactivate();
         console.log('ondeactivate');
         this.player.vel = new ex.Vector(0,0);
         this.player.pos.x = 0;

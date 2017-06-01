@@ -6,6 +6,7 @@ class NextLevel extends ex.Scene {
     private button: ex.UIActor; 
 
     public onInitialize(engine: ex.Engine) {
+        
         this.levelComplete = new ex.Sprite(resources.levelComplete, 0, 0, 100, 100);
         this.message = new ex.UIActor(game.getDrawWidth()/2 - 200, 50);
         this.message.addDrawing('complete', this.levelComplete);

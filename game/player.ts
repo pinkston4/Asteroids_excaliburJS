@@ -1,9 +1,11 @@
 class Player extends ex.Actor {
 
     private playerSprite: ex.Sprite;
+    public health: number;
 
     constructor(x: number, y:number) {
         super(x, y);
+        this.health = 100;
         this.collisionType = ex.CollisionType.Active;
         this.playerSprite = new ex.Sprite(resources.playerShip, x, y, 96, 75);
         this.playerSprite.scale = new ex.Vector(0.5, 0.5);
