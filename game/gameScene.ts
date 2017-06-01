@@ -39,16 +39,17 @@ class GameScene extends ex.Scene {
         this.rightBorder  = new Border(this.right - 10, 0, 2, game.getDrawHeight()-20);
         
         this.player = new Player(0, 0);
-        this.add(this.leftBorder);
-        this.add(this.topBorder);
-        this.add(this.rightBorder);
-        this.add(this.bottomBorder);
-        this.add(this.player);
+  
     }
 
     // each time the scene is entered (Engine.goToScene)
     public onActivate() { 
    
+        this.add(this.leftBorder);
+        this.add(this.topBorder);
+        this.add(this.rightBorder);
+        this.add(this.bottomBorder);
+        this.add(this.player);
 
         this.createLargeMeteors();
 
@@ -144,13 +145,13 @@ class GameScene extends ex.Scene {
  
 
     // each time the scene is exited (Engine.goToScene)
-    // public onDeactivate() { 
-    //     console.log('ondeactivate');
-    //     for (let child of this.children) {
-    //         this.remove(child)
-    //         console.log('removing child', child);
-    //     }
-    // }
+    public onDeactivate() { 
+        super.onDeactivate();
+        console.log('ondeactivate');
+        this.player.vel = new ex.Vector(0,0);
+        this.player.pos.x = 0;
+        this.player.pos.y = 0;
+        this.player.rotation = 0;
+    }
 
- 
 }
